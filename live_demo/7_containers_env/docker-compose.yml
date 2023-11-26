@@ -1,0 +1,28 @@
+
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 4000:8000
+    depends_on:
+      - rediscache
+    volumes:
+      - ./model.pkl:/app/model.pkl
+    env_file:
+     - .env
+    # You could also use 'environment' instead of env_file etc., but this is not safe for sensitive data as docker-compose.yml is usually stored in a repository.
+    # environment:
+    #  - REDIS_PASSWORD=redispassword
+  rediscache:
+    image: redis:alpine
+    container_name: shiny-redis-cache
+    volumes:
+      - ./redisdata:/data
+    # Notice how we use the REDIS_PASSWORD variable here, because the command is the last thing that is run when the container is started, therefore the env_file and variables from it are already imported and we can use them.
+    command: redis-server --appendonly yes --requirepass $REDIS_PASSWORD
+    env_file:
+      - .env
+

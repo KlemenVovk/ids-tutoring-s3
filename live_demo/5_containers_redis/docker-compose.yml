@@ -1,0 +1,16 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 4000:8000
+    depends_on:
+      - rediscache
+  rediscache:
+    image: redis:alpine
+    container_name: shiny-redis-cache
+    # Do we need to port forward this? Remember redis is only used "internally" - so inside the docker network from the api container, you are never accessing it from the host, this is why you don't want to port forward here.
+    # ports:
+    #   - 6379:6379

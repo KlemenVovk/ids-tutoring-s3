@@ -1,0 +1,20 @@
+
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 4000:8000
+    depends_on:
+      - rediscache
+    volumes:
+      - ./model.pkl:/app/model.pkl
+  rediscache:
+    image: redis:alpine
+    container_name: shiny-redis-cache
+    volumes:
+      - ./redisdata:/data
+    command: redis-server --appendonly yes
+
