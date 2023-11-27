@@ -1,1 +1,0 @@
-redis persistence + model persistence
