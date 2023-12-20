@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  postgres:
+    build:
+      context: postgres
+      dockerfile: Dockerfile
+    env_file:
+      - .postgres.env
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+  mysql:
+    image: mysql:8.2.0
+    env_file:
+      - .mysql.env
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+  adminer:
+    image: adminer:4.8.1-standalone
+    ports:
+      - 10000:8080
+    depends_on:
+      - mysql
+      - postgres
+  pythonml:
+    build:
+      context: pythonml
+      dockerfile: Dockerfile
+    volumes:
+      - ./data/pythonml:/app/predictions
+    environment:
+      - POSTGRES_HOST=postgres
+      - MYSQL_HOST=mysql
+    env_file:
+      - .postgres.env
+      - .mysql.env
+    depends_on:
+      - postgres
+      - mysql
+  uptime-kuma:
+    image: louislam/uptime-kuma:1.23.10
+    ports:
+        - 10001:3001
+    volumes:
+        - ./data/kuma:/app/data
+    depends_on:
+      - postgres
+      - mysql
+  
