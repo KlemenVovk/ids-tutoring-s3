@@ -1,3 +1,5 @@
+Everything you need to complete the exercise is inside the `starting_point` directory. An example of a solution is in the `solution` directory.
+
 Your goal is to create a machine learning pipeline with uptime monitoring.
 
 ## Short description
@@ -5,9 +7,11 @@ Your goal is to create a machine learning pipeline with uptime monitoring.
 In short, once the docker compose is ran, the following should happen:
 1. A Postgres database should be set up and populated with data (to do that, you need to find a way to run the .sql script in postgres/scripts)
 2. A MySQL database should be set up, empty.
-3. Another container should run the `main.py` python script in `pythonml`. This script fetches data from the Postgres database, builds a scikit-learn model, does predictions and saves them into the MySQL database. This script needs to be rerun every 30 seconds.
+3. Another container should run the `main.py` python script in `pythonml`. This script fetches data from the Postgres database, builds a scikit-learn model, does predictions and saves them into the MySQL database. This script needs to run every 30 seconds (without creating a new container).
 4. A container running [Adminer](https://www.adminer.org/) should be available to connect and view both databases
 5. A container running [Uptime Kuma](https://github.com/louislam/uptime-kuma) should monitor the adminer application.
+
+Your solution needs to work by only executing: `docker compose up --build`.
 
 ## Details about containers
 You are free to decide where to write a Dockerfile and where to just use the image from docker hub.
@@ -56,7 +60,6 @@ You should provide the following screenshots in the screenshots directory of the
 - Screenshot of how the main dashboard of Uptime Kuma looks (monitoring Adminer, status says Adminer is up).
 
 You should also provide the predictions.csv from the model. Put it into the predictions directory in the repo.
-
 
 Follow best practices:
 - Do you need to map a certain port to host (i.e. the mysql/postgres port)?
