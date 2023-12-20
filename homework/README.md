@@ -67,3 +67,5 @@ Follow best practices:
 - Make sure that the order of container start ups makes sense - does it make sense for e.g. Adminer to start before the actual databases (Postgres/MySQL) are ready?
 - Some environment variables may be needed in multiple containers. Can you make it so that these are defined only once (so if you have to change them, you only change them in one place).
 - Write Dockerfiles such that you utilize caching of layers (changing the `main.py` script should not force Docker to reinstall dependencies from `requirements.txt` in the next build).
+
+There is no need to change the source code (`main.py`) or the initialization `01_db_init.sql` script. Everything can be configured by scouring the documentation of various containers.
